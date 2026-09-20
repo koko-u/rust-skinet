@@ -8,6 +8,6 @@ pub struct UpdateProduct {
     pub price: rust_decimal::Decimal,
     pub picture_url: Option<String>,
     pub product_type: String,
-    pub brand: Option<String>,
+    pub product_brand: Option<String>,
     pub quantity_in_stock: i32,
 }

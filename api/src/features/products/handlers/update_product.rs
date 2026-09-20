@@ -1,6 +1,7 @@
 use axum::extract;
 
 use crate::errors;
+use crate::features::product_brands::repositories as pb_repositories;
 use crate::features::product_types::repositories as pt_repositories;
 use crate::features::products::models;
 use crate::features::products::repositories;
@@ -30,8 +31,18 @@ pub async fn update_product(
     let command = request.validate_into(id, &state.pool).await?;
 
     let updated_product = shared::transaction(&state.pool, async |tx| {
+        // create product type if not exists
         let product_type = pt_repositories::select_or_insert(tx, &command.product_type).await?;
-        let row = repositories::update(tx, &command, product_type.id.into()).await?;
+        // create product brand if not exists
+        let product_brand = if let Some(product_brand) = &command.product_brand {
+            Some(pb_repositories::select_or_insert(tx, product_brand).await?)
+        } else {
+            None
+        };
+
+        // update product
+        let product_brand_id = product_brand.map(|b| b.id.into());
+        let row = repositories::update(tx, &command, product_type.id.into(), product_brand_id).await?;
 
         match row {
             Some(row) => Ok(models::Product::from(row)),

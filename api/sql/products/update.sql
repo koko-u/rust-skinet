@@ -5,7 +5,7 @@ WITH "params" (
                "price",
                "picture_url",
                "product_type_id",
-               "brand",
+               "product_brand_id",
                "quantity_in_unit"
     ) AS (VALUES ($1::uuid,
                   $2::varchar,
@@ -13,7 +13,7 @@ WITH "params" (
                   $4::decimal,
                   $5::varchar,
                   $6::uuid,
-                  $7::varchar,
+                  $7::uuid,
                   $8::int))
 UPDATE "products" AS "P"
 SET "name"              = "M"."name",
@@ -21,7 +21,7 @@ SET "name"              = "M"."name",
     "price"             = "M"."price",
     "picture_url"       = "M"."picture_url",
     "product_type_id"   = "M"."product_type_id",
-    "brand"             = "M"."brand",
+    "product_brand_id"  = "M"."product_brand_id",
     "quantity_in_stock" = "M"."quantity_in_unit"
 FROM "params" AS "M"
 WHERE "P"."id" = "M"."id"
@@ -32,7 +32,8 @@ RETURNING "P"."id",
     "P"."picture_url",
     "P"."product_type_id",
         (SELECT "name" FROM "product_types" WHERE "id" = "M"."product_type_id") AS "product_type_name!",
-    "P"."brand",
+    "P"."product_brand_id",
+    (SELECT "name" FROM "product_brands" WHERE "id" = "M"."product_brand_id") AS "product_brand_name",
     "P"."quantity_in_stock";
 
 

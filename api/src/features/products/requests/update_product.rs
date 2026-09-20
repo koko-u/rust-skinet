@@ -29,7 +29,7 @@ pub struct UpdateProduct {
 
     #[garde(length(max = 255))]
     #[schema(max_length = 255)]
-    pub brand: Option<String>,
+    pub product_brand: Option<String>,
 
     #[garde(required, range(min = 0))]
     #[schema(required, minimum = 0)]
@@ -69,7 +69,7 @@ impl UpdateProduct {
                 price: self.price.expect("price is required"),
                 picture_url: self.picture_url,
                 product_type: self.product_type.expect("product_type is required"),
-                brand: self.brand,
+                product_brand: self.product_brand,
                 quantity_in_stock: self.quantity_in_stock.expect("quantity_in_stock is required"),
             }),
             (result1, result2) => {

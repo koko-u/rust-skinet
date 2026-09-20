@@ -1,9 +1,5 @@
 use better_default::Default as BetterDefault;
 use into_inner::IntoInner;
-
-use crate::features::product_brands::models as pb_models;
-use crate::features::product_types::models as pt_models;
-
 #[derive(
     Debug,
     Copy,
@@ -23,16 +19,10 @@ use crate::features::product_types::models as pt_models;
 #[display("{}", _0)]
 #[serde(transparent)]
 #[schema(value_type = uuid::Uuid)]
-pub struct ProductId(#[default(uuid::Uuid::now_v7())] uuid::Uuid);
+pub struct ProductBrandId(#[default(uuid::Uuid::now_v7())] uuid::Uuid);
 
 #[derive(Debug, Clone, Eq, PartialEq, serde::Serialize, serde::Deserialize)]
-pub struct Product {
-    pub id: ProductId,
+pub struct ProductBrand {
+    pub id: ProductBrandId,
     pub name: String,
-    pub description: Option<String>,
-    pub price: rust_decimal::Decimal,
-    pub picture_url: Option<String>,
-    pub product_type: pt_models::ProductType,
-    pub product_brand: Option<pb_models::ProductBrand>,
-    pub quantity_in_stock: i32,
 }

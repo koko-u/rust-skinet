@@ -1,6 +1,7 @@
 use axum::extract;
 
 use crate::errors;
+use crate::features::product_brands::repositories as pb_repositories;
 use crate::features::product_types::repositories as pt_repositories;
 use crate::features::products::models;
 use crate::features::products::repositories;
@@ -29,9 +30,17 @@ pub async fn create_product(
     let created_product: models::Product = shared::transaction(&state.pool, async |tx| {
         // create product type if not exists
         let product_type = pt_repositories::select_or_insert(tx, &command.product_type).await?;
+        // create product brand if not exists
+        let product_brand = if let Some(product_brand) = &command.product_brand {
+            Some(pb_repositories::select_or_insert(tx, product_brand).await?)
+        } else {
+            None
+        };
 
         // create product
-        let created_row = repositories::insert(tx, &command, product_type.id.into()).await?;
+        let product_brand_id = product_brand.map(|b| b.id.into());
+        let created_row =
+            repositories::insert(tx, &command, product_type.id.into(), product_brand_id).await?;
 
         match created_row {
             Some(row) => Ok(row.into()),

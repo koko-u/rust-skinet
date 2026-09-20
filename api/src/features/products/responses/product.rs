@@ -9,7 +9,7 @@ pub struct Product {
     pub price: rust_decimal::Decimal,
     pub picture_url: Option<String>,
     pub product_type: String,
-    pub brand: Option<String>,
+    pub product_brand: Option<String>,
     pub quantity_in_stock: i32,
 }
 
@@ -22,7 +22,7 @@ impl From<models::Product> for Product {
             price: value.price,
             picture_url: value.picture_url,
             product_type: value.product_type.name,
-            brand: value.brand,
+            product_brand: value.product_brand.map(|b| b.name),
             quantity_in_stock: value.quantity_in_stock,
         }
     }

@@ -1,3 +1,4 @@
+use crate::features::product_brands::models as pb_models;
 use crate::features::product_types::models as pt_models;
 use crate::features::products::models;
 
@@ -10,12 +11,17 @@ pub struct ProductRow {
     pub picture_url: Option<String>,
     pub product_type_id: uuid::Uuid,
     pub product_type_name: String,
-    pub brand: Option<String>,
+    pub product_brand_id: Option<uuid::Uuid>,
+    pub product_brand_name: Option<String>,
     pub quantity_in_stock: i32,
 }
 
 impl From<ProductRow> for models::Product {
     fn from(value: ProductRow) -> Self {
+        let product_brand = match (value.product_brand_id, value.product_brand_name) {
+            (Some(id), Some(name)) => Some(pb_models::ProductBrand { id: id.into(), name }),
+            _ => None,
+        };
         Self {
             id: value.id.into(),
             name: value.name,
@@ -26,7 +32,7 @@ impl From<ProductRow> for models::Product {
                 id: value.product_type_id.into(),
                 name: value.product_type_name,
             },
-            brand: value.brand,
+            product_brand,
             quantity_in_stock: value.quantity_in_stock,
         }
     }
