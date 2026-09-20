@@ -19,7 +19,7 @@ impl From<models::Product> for Product {
             name: value.name,
             description: value.description,
             price: value.price,
-            picture_url: value.picture_url,
+            picture_url: value.picture_url.map(String::from),
             product_type: value.product_type.name,
             brand: value.brand,
             quantity_in_stock: value.quantity_in_stock,

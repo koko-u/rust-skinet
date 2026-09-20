@@ -9,7 +9,7 @@ pub fn router() -> axum::Router<state::AppState> {
             "/products",
             routing::MethodRouter::new()
                 .get(handlers::get_products)
-                .post(|| async move { "Create Product" }),
+                .post(handlers::create_product),
         )
         .route(
             "/products/{id}",

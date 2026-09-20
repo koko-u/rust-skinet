@@ -1,7 +1,9 @@
 pub mod handlers;
 pub mod models;
 
-mod products_repository;
+mod commands;
+mod repositories;
+mod requests;
 mod responses;
 mod router;
 mod rows;

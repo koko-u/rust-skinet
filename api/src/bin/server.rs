@@ -24,12 +24,9 @@ async fn main() -> eyre::Result<()> {
 
     #[cfg(feature = "api-doc")]
     let app = {
-        use api::openapi;
-        use utoipa::OpenApi;
-        use utoipa_scalar::Scalar;
-        use utoipa_scalar::Servable;
-
-        app.merge(Scalar::with_url("/scalar", openapi::ApiDoc::openapi()))
+        use api::openapi::scalar;
+        use axum::routing;
+        app.merge(axum::Router::new().route("/scalar", routing::get(scalar)))
     };
 
     let listener = tokio::net::TcpListener::bind(config.addrs()).await?;

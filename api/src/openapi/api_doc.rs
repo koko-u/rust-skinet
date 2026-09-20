@@ -11,6 +11,7 @@ const MODIFIER: security_addon::SecurityAddon = security_addon::SecurityAddon;
         ok,
         get_products,
         get_product_by_id,
+        create_product,
     ),
     modifiers(
        &MODIFIER
