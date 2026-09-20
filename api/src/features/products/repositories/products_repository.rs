@@ -29,6 +29,16 @@ impl<'c> ProductsRepository<'c> {
             .await
     }
 
+    pub async fn exists_by_name_except_id(
+        self,
+        id: models::ProductId,
+        name: &str,
+    ) -> Result<bool, sqlx::Error> {
+        sqlx::query_file_scalar!("sql/products/exists_by_name_except_id.sql", id.into_inner(), name)
+            .fetch_one(self.0.as_mut())
+            .await
+    }
+
     pub async fn insert(
         self,
         command: &commands::CreateProduct,
@@ -59,6 +69,47 @@ impl<'c> ProductsRepository<'c> {
         )
         .fetch_optional(self.0.as_mut())
         .await
+    }
+
+    pub async fn update(
+        self,
+        command: &commands::UpdateProduct,
+        product_type_id: pt_models::ProductTypeId,
+    ) -> Result<Option<rows::ProductRow>, sqlx::Error> {
+        let commands::UpdateProduct {
+            id,
+            name,
+            description,
+            price,
+            picture_url,
+            product_type,
+            brand,
+            quantity_in_stock,
+        } = command;
+        let id = id.into_inner();
+        let picture_url = picture_url.as_ref().map(|url| url.as_str());
+        let product_type_id = product_type_id.into_inner();
+
+        sqlx::query_file_as!(
+            rows::ProductRow,
+            "sql/products/update.sql",
+            id,
+            name,
+            description.as_ref(),
+            price,
+            picture_url,
+            product_type_id,
+            brand.as_ref(),
+            quantity_in_stock
+        )
+        .fetch_optional(self.0.as_mut())
+        .await
+    }
+
+    pub async fn delete(self, id: models::ProductId) -> Result<Option<rows::ProductRow>, sqlx::Error> {
+        sqlx::query_file_as!(rows::ProductRow, "sql/products/delete.sql", id.into_inner())
+            .fetch_optional(self.0.as_mut())
+            .await
     }
 }
 

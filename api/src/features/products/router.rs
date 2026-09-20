@@ -15,7 +15,7 @@ pub fn router() -> axum::Router<state::AppState> {
             "/products/{id}",
             routing::MethodRouter::new()
                 .get(handlers::get_product_by_id)
-                .put(|| async move { "Update one product" })
-                .delete(|| async move { "Delete one product" }),
+                .put(handlers::update_product)
+                .delete(handlers::delete_product),
         )
 }

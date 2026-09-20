@@ -9,7 +9,7 @@ use crate::state;
 
 #[utoipa::path(
     get,
-    path = "/api/products",
+    path = "",
     description = "Get All Products",
     tag = "Products",
     responses(

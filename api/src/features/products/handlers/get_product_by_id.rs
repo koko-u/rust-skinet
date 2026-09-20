@@ -9,7 +9,7 @@ use crate::state;
 
 #[utoipa::path(
     get,
-    path = "/api/products/{id}",
+    path = "/{id}",
     params(
         ("id" = models::ProductId, Path, description = "Product Id")
     ),

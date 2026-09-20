@@ -1,5 +1,5 @@
 use crate::features::health_check::*;
-use crate::features::products::handlers::*;
+use crate::features::products::openapi::ProductsApi;
 
 mod security_addon;
 
@@ -9,9 +9,9 @@ const MODIFIER: security_addon::SecurityAddon = security_addon::SecurityAddon;
 #[openapi(
     paths(
         ok,
-        get_products,
-        get_product_by_id,
-        create_product,
+    ),
+    nest(
+        (path = "/api/products", api = ProductsApi),
     ),
     modifiers(
        &MODIFIER

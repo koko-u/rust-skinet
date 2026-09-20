@@ -11,7 +11,7 @@ use crate::state;
 
 #[utoipa::path(
     post,
-    path = "/api/products",
+    path = "",
     request_body = requests::CreateProduct,
     tag = "Products",
     responses(
