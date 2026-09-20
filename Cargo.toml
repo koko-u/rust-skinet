@@ -96,7 +96,7 @@ tower = { version = "0.5.3", features = ["full"] }
 tower-http = { version = "0.7.1", features = ["full"] }
 utoipa = { version = "5.5.0", features = [
     "config",
-    "decimal",
+    "decimal_float",
     "preserve_path_order",
     "preserve_order",
     "time",

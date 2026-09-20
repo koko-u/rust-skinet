@@ -30,7 +30,7 @@ pub struct Product {
     pub name: String,
     pub description: Option<String>,
     pub price: rust_decimal::Decimal,
-    pub picture_url: Option<url::Url>,
+    pub picture_url: Option<String>,
     pub product_type: pt_models::ProductType,
     pub brand: Option<String>,
     pub quantity_in_stock: i32,

@@ -5,6 +5,7 @@ pub struct Product {
     pub id: uuid::Uuid,
     pub name: String,
     pub description: Option<String>,
+    #[serde(serialize_with = "rust_decimal::serde::arbitrary_precision::serialize")]
     pub price: rust_decimal::Decimal,
     pub picture_url: Option<String>,
     pub product_type: String,
@@ -19,7 +20,7 @@ impl From<models::Product> for Product {
             name: value.name,
             description: value.description,
             price: value.price,
-            picture_url: value.picture_url.map(String::from),
+            picture_url: value.picture_url,
             product_type: value.product_type.name,
             brand: value.brand,
             quantity_in_stock: value.quantity_in_stock,

@@ -18,7 +18,8 @@ pub struct CreateProduct {
     #[schema(required, multiple_of = 0.01)]
     pub price: Option<rust_decimal::Decimal>,
 
-    #[garde(url)]
+    #[garde(length(max = 2048))]
+    #[schema(max_length = 2048)]
     pub picture_url: Option<String>,
 
     #[garde(required, length(max = 255))]
@@ -59,20 +60,15 @@ impl CreateProduct {
         }
 
         match (garde_result, name_result) {
-            (Ok(_), Ok(_)) => {
-                let picture_url = self
-                    .picture_url
-                    .map(|value| value.parse::<url::Url>().expect("picture url is invalid"));
-                Ok(commands::CreateProduct {
-                    name: self.name.expect("name is required"),
-                    description: self.description,
-                    price: self.price.expect("price is required"),
-                    picture_url,
-                    product_type: self.product_type.expect("product_type is required"),
-                    brand: self.brand,
-                    quantity_in_stock: self.quantity_in_stock.expect("quantity_in_stock is required"),
-                })
-            }
+            (Ok(_), Ok(_)) => Ok(commands::CreateProduct {
+                name: self.name.expect("name is required"),
+                description: self.description,
+                price: self.price.expect("price is required"),
+                picture_url: self.picture_url,
+                product_type: self.product_type.expect("product_type is required"),
+                brand: self.brand,
+                quantity_in_stock: self.quantity_in_stock.expect("quantity_in_stock is required"),
+            }),
             (result1, result2) => {
                 let report = merge!(result1, result2);
                 Err(errors::ValidationError::Validation(report))

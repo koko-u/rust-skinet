@@ -3,8 +3,8 @@ use crate::features::products::commands;
 use crate::features::products::rows;
 use crate::shared;
 
-pub async fn insert<'a>(
-    tx: &'a mut shared::Tx<'_>,
+pub async fn insert(
+    tx: &mut shared::Tx<'_>,
     command: &commands::CreateProduct,
     product_type_id: pt_models::ProductTypeId,
 ) -> Result<Option<rows::ProductRow>, sqlx::Error> {
