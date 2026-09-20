@@ -39,7 +39,7 @@ impl UpdateProduct {
     pub async fn validate_into(
         self,
         id: models::ProductId,
-        conn: &mut sqlx::PgConnection,
+        pool: &sqlx::PgPool,
     ) -> Result<commands::UpdateProduct, errors::ValidationError> {
         use garde::Validate as _;
         let garde_result = self.validate();
@@ -47,8 +47,8 @@ impl UpdateProduct {
         // name already exists error
         let mut name_result: Result<(), garde::Report> = Ok(());
         if let Some(name) = &self.name {
-            let repo = repositories::ProductsRepository::new(conn);
-            let exists = repo.exists_by_name_except_id(id, name).await?;
+            let mut conn = pool.acquire().await?;
+            let exists = repositories::exists_by_name_except_id(pool, id, name).await?;
             if exists {
                 let mut error = garde::Report::new();
                 error.append(

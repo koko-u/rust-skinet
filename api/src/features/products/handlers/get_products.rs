@@ -20,9 +20,7 @@ use crate::state;
 pub async fn get_products(
     extract::State(state): extract::State<state::AppState>,
 ) -> Result<axum::Json<Vec<responses::Product>>, errors::ApiError> {
-    let mut conn = state.pool.acquire().await?;
-    let repo = repositories::ProductsRepository::new(conn.as_mut());
-    let products = repo.select_all().await?;
+    let products = repositories::select_all(&state.pool).await?;
 
     let response = products
         .into_iter()

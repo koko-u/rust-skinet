@@ -25,9 +25,7 @@ pub async fn get_product_by_id(
     extract::Path(id): extract::Path<models::ProductId>,
     extract::State(state): extract::State<state::AppState>,
 ) -> Result<axum::Json<responses::Product>, errors::ApiError> {
-    let mut conn = state.pool.acquire().await?;
-    let repo = repositories::ProductsRepository::new(conn.as_mut());
-    let product = repo.select_by_id(id).await?;
+    let product = repositories::select_by_id(&state.pool, id).await?;
 
     match product {
         Some(product) => {

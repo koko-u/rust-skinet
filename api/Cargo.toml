@@ -14,6 +14,7 @@ clap.workspace = true
 color-eyre.workspace = true
 derive_more.workspace = true
 eyre.workspace = true
+futures.workspace = true
 into_inner.workspace = true
 itertools.workspace = true
 rslug.workspace = true
@@ -35,9 +36,9 @@ axum.workspace = true
 axum-keycloak-auth.workspace = true
 garde.workspace = true
 hyper.workspace = true
+scalar_api_reference = { workspace = true, optional = true }
 tokio.workspace = true
 tokio-util.workspace = true
 tower.workspace = true
 tower-http.workspace = true
 utoipa.workspace = true
-scalar_api_reference = { workspace = true, optional = true }

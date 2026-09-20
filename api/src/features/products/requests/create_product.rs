@@ -37,7 +37,7 @@ pub struct CreateProduct {
 impl CreateProduct {
     pub async fn validate_into(
         self,
-        conn: &mut sqlx::PgConnection,
+        pool: &sqlx::PgPool,
     ) -> Result<commands::CreateProduct, errors::ValidationError> {
         use garde::Validate as _;
         let garde_result = self.validate();
@@ -45,8 +45,8 @@ impl CreateProduct {
         // name already exists error
         let mut name_result: Result<(), garde::Report> = Ok(());
         if let Some(name) = &self.name {
-            let repo = repositories::ProductsRepository::new(conn);
-            let exists = repo.exists_by_name(name).await?;
+            let mut conn = pool.acquire().await?;
+            let exists = repositories::exists_by_name(pool, name).await?;
             if exists {
                 let mut error = garde::Report::new();
                 error.append(

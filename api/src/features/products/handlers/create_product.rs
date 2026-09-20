@@ -24,35 +24,28 @@ pub async fn create_product(
     extract::State(state): extract::State<state::AppState>,
     extract::Json(request): extract::Json<requests::CreateProduct>,
 ) -> Result<shared::responses::Created<responses::Product>, errors::ApiError> {
-    let mut conn = state.pool.acquire().await?;
-    let command = request.validate_into(&mut conn).await?;
+    let command = request.validate_into(&state.pool).await?;
 
-    let created_product = {
-        let mut tx = state.pool.begin().await?;
-        let product_type_repo = pt_repositories::ProductTypesRepository::new(tx.as_mut());
-        // create product_type (if already exists, return None)
-        let product_type = product_type_repo.select_or_insert(&command.name).await?;
+    let created_product: models::Product = shared::transaction(&state.pool, async |tx| {
+        // create product type if not exists
+        let product_type = pt_repositories::select_or_insert(tx, &command.product_type).await?;
 
         // create product
-        let products_repo = repositories::ProductsRepository::new(tx.as_mut());
-        let created_row = products_repo.insert(&command, product_type.id.into()).await?;
+        let created_row = repositories::insert(tx, &command, product_type.id.into()).await?;
 
-        let product: models::Product = match created_row {
-            Some(row) => row.into(),
+        match created_row {
+            Some(row) => Ok(row.into()),
             None => {
                 let mut report = garde::Report::new();
                 report.append(
                     garde::Path::empty(),
                     garde::Error::new("Cannot create product, it may conflict the name"),
                 );
-                return Err(errors::ApiError::Validation(report));
+                Err(errors::ApiError::Validation(report))
             }
-        };
-
-        tx.commit().await?;
-
-        product
-    };
+        }
+    })
+    .await?;
 
     let location = format!("/api/products/{}", created_product.id);
     Ok(shared::responses::created(location, created_product.into()))

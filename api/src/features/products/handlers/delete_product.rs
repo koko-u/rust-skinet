@@ -25,24 +25,22 @@ pub async fn delete_product(
     extract::Path(id): extract::Path<models::ProductId>,
     extract::State(state): extract::State<state::AppState>,
 ) -> Result<http::StatusCode, errors::ApiError> {
-    let deleted_product = {
-        let mut tx = state.pool.begin().await?;
-        let products_repo = repositories::ProductsRepository::new(&mut tx);
-        let row = products_repo.delete(id).await?;
-        tx.commit().await?;
+    let deleted_product = shared::transaction(&state.pool, async |tx| {
+        let row = repositories::delete(tx, id).await?;
 
         match row {
-            Some(row) => models::Product::from(row),
+            Some(row) => Ok(models::Product::from(row)),
             None => {
                 let mut report = garde::Report::new();
                 report.append(
                     garde::Path::new("id"),
                     garde::Error::new(format!("Product id='{id}' not found")),
                 );
-                return Err(errors::ApiError::Validation(report));
+                Err(errors::ApiError::Validation(report))
             }
         }
-    };
+    })
+    .await?;
 
     Ok(http::StatusCode::NO_CONTENT)
 }
