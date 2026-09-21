@@ -1,5 +1,3 @@
-use into_inner::IntoInner;
-
 use crate::features::product_brands::commands;
 use crate::features::product_brands::rows;
 use crate::shared;

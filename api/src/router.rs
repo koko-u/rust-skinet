@@ -4,6 +4,7 @@ use axum_keycloak_auth::role;
 
 use crate::features::health_check;
 use crate::features::product_brands;
+use crate::features::product_types;
 use crate::features::products;
 use crate::state;
 
@@ -13,7 +14,8 @@ where
 {
     let protected_routes = axum::Router::new()
         .merge(products::router())
-        .merge(product_brands::router());
+        .merge(product_brands::router())
+        .merge(product_types::router());
     //let protected_routes = protected_routes.layer(auth_layer);
 
     axum::Router::new()
