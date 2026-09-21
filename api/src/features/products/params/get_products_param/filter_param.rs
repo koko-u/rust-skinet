@@ -1,12 +1,11 @@
 use crate::errors;
 use crate::features::product_brands::repositories as pb_repositories;
 use crate::features::product_types::repositories as pt_repositories;
-use crate::features::products::filters;
 use crate::shared::macros::merge;
 
 #[derive(Debug, Clone, Eq, PartialEq, serde::Deserialize, garde::Validate, utoipa::IntoParams)]
 #[into_params(parameter_in = Query)]
-pub struct GetProductsQuery {
+pub struct GetProductsFilter {
     #[serde(default, deserialize_with = "de::comma_separated")]
     #[param(style = Form, explode = false)]
     #[garde(inner(length(max = 10), inner(length(max = 255))))]
@@ -18,11 +17,17 @@ pub struct GetProductsQuery {
     pub types: Option<Vec<String>>,
 }
 
-impl GetProductsQuery {
+#[derive(Debug, Clone, Eq, PartialEq)]
+pub struct ValidProductsFilter {
+    pub brands: Option<Vec<String>>,
+    pub types: Option<Vec<String>>,
+}
+
+impl GetProductsFilter {
     pub async fn validate_into(
         self,
         pool: &sqlx::PgPool,
-    ) -> Result<filters::FilterProducts, errors::ValidationError> {
+    ) -> Result<ValidProductsFilter, errors::ValidationError> {
         use garde::Validate as _;
         let garde_result = self.validate();
 
@@ -66,7 +71,7 @@ impl GetProductsQuery {
         }
 
         match (garde_result, brands_result, types_result) {
-            (Ok(()), Ok(()), Ok(())) => Ok(filters::FilterProducts {
+            (Ok(()), Ok(()), Ok(())) => Ok(ValidProductsFilter {
                 brands: self.brands,
                 types: self.types,
             }),

@@ -1,10 +1,9 @@
 pub mod handlers;
 pub mod models;
+pub mod openapi;
 
 mod commands;
-mod filters;
-pub mod openapi;
-mod query_params;
+mod params;
 mod repositories;
 mod requests;
 mod responses;

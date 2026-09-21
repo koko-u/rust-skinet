@@ -22,6 +22,7 @@ rust_decimal.workspace = true
 secrecy.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+serde_plain.workspace = true
 sql-forge.workspace = true
 sqlx.workspace = true
 sqlx_dyn.workspace = true
@@ -43,3 +44,8 @@ tokio-util.workspace = true
 tower.workspace = true
 tower-http.workspace = true
 utoipa.workspace = true
+
+sqlx-qb-helper.workspace = true
+
+[dev-dependencies]
+assert2.workspace = true

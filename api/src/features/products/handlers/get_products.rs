@@ -2,7 +2,7 @@ use axum::extract;
 
 use crate::errors;
 use crate::features::products::models;
-use crate::features::products::query_params;
+use crate::features::products::params;
 use crate::features::products::repositories;
 use crate::features::products::responses;
 use crate::shared;
@@ -11,7 +11,10 @@ use crate::state;
 #[utoipa::path(
     get,
     path = "",
-    params(query_params::GetProductsQuery),
+    params(
+        params::GetProductsFilter,
+        params::GetProductsOrder,
+    ),
     description = "Get All Products",
     tag = "Products",
     responses(
@@ -21,10 +24,13 @@ use crate::state;
 )]
 pub async fn get_products(
     extract::State(state): extract::State<state::AppState>,
-    extract::Query(params): extract::Query<query_params::GetProductsQuery>,
+    extract::Query(params): extract::Query<params::GetProductParam>,
 ) -> Result<axum::Json<Vec<responses::Product>>, errors::ApiError> {
-    let filter = params.validate_into(&state.pool).await?;
-    let products = repositories::select_by_filter(&state.pool, &filter).await?;
+    tracing::info!(param = ?params, "Query Parameters");
+
+    let filter = params.filter.validate_into(&state.pool).await?;
+    let order = params.order.validate_into()?;
+    let products = repositories::select_by_filter(&state.pool, &filter, &order).await?;
 
     let response = products
         .into_iter()
