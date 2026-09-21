@@ -2,7 +2,7 @@ use super::direction;
 use super::field;
 use crate::shared::validators;
 
-#[derive(Debug, Clone, Eq, PartialEq, garde::Validate, utoipa::ToSchema)]
+#[derive(Debug, Clone, Eq, PartialEq, garde::Validate)]
 pub struct ProductSort {
     #[garde(custom(validators::deserializable_as::<field::ProductField>))]
     pub field: String,

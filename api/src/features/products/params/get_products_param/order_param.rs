@@ -2,7 +2,10 @@
 #[into_params(parameter_in = Query)]
 pub struct GetProductsOrder {
     #[serde(default, deserialize_with = "de::deserialize_sort")]
-    #[param(style = Form, explode = false)]
+    #[param(
+          value_type = String,
+          example = "name:asc,price:desc"
+    )]
     #[garde(dive)]
     pub sorts: Vec<ProductSort>,
 }
