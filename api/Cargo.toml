@@ -24,6 +24,7 @@ serde.workspace = true
 serde_json.workspace = true
 sql-forge.workspace = true
 sqlx.workspace = true
+sqlx_dyn.workspace = true
 strum.workspace = true
 time.workspace = true
 tracing.workspace = true
