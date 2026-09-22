@@ -173,3 +173,6 @@ fabric.properties
 .envrc
 
 # End of https://www.toptal.com/developers/gitignore/api/direnv
+
+## Local CA Certs
+certs/
