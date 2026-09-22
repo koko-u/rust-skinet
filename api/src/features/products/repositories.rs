@@ -1,3 +1,4 @@
+mod count_by_filter;
 mod delete;
 mod exists_by_name;
 mod exists_by_name_except_id;
@@ -7,6 +8,7 @@ mod select_by_filter;
 mod select_by_id;
 mod update;
 
+pub use count_by_filter::count_by_filter;
 pub use delete::delete;
 pub use exists_by_name::exists_by_name;
 pub use exists_by_name_except_id::exists_by_name_except_id;

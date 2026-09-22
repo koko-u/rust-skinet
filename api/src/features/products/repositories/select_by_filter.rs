@@ -8,6 +8,7 @@ pub async fn select_by_filter(
     pool: &sqlx::PgPool,
     filter: &params::ValidProductsFilter,
     order: &params::ValidProductsOrder,
+    paging: params::ValidPagingParam,
 ) -> Result<Vec<rows::ProductRow>, sqlx::Error> {
     let mut conn = pool.acquire().await?;
 
@@ -78,6 +79,9 @@ pub async fn select_by_filter(
             });
         }
     }
+    // limit and offset
+    query_builder.push(" LIMIT ").push_bind(paging.limit());
+    query_builder.push(" OFFSET ").push_bind(paging.offset());
 
     query_builder
         .build_query_as::<rows::ProductRow>()
