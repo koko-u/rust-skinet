@@ -4,6 +4,7 @@ use crate::features::product_types::repositories as pt_repositories;
 use crate::shared::macros::merge;
 
 #[derive(Debug, Clone, Eq, PartialEq, serde::Deserialize, garde::Validate, utoipa::IntoParams)]
+#[serde(rename_all = "kebab-case")]
 #[into_params(parameter_in = Query)]
 pub struct GetProductsFilter {
     #[serde(default, deserialize_with = "de::comma_separated")]

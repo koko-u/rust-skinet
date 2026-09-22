@@ -1,6 +1,7 @@
 use crate::features::product_brands::models;
 
 #[derive(Debug, Clone, Eq, PartialEq, serde::Serialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ProductBrand {
     pub id: uuid::Uuid,
     pub name: String,

@@ -1,6 +1,7 @@
 use crate::shared::params;
 
 #[derive(Debug, Clone, Eq, PartialEq, serde::Deserialize, garde::Validate, utoipa::IntoParams)]
+#[serde(rename_all = "kebab-case")]
 #[into_params(parameter_in = Query)]
 pub struct PagingParam {
     #[garde(custom(validators::positive_u32))]

@@ -4,6 +4,7 @@ use std::collections;
 use axum::http;
 
 #[derive(Debug, Clone, serde::Serialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct ProblemDetails {
     pub title: String,
     #[serde(serialize_with = "se_status")]

@@ -1,6 +1,7 @@
 use crate::shared::params;
 
 #[derive(Debug, Clone, serde::Serialize, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct WithPagination<T> {
     pub current_page: params::CurrentPage,
     pub page_size: params::PageSize,

@@ -6,6 +6,7 @@ use crate::shared::macros::merge;
 use crate::shared::validators;
 
 #[derive(Debug, Clone, Eq, PartialEq, serde::Deserialize, garde::Validate, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct UpdateProduct {
     #[garde(required, length(max = 255))]
     #[schema(required, max_length = 255)]

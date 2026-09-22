@@ -1,0 +1,36 @@
+@reference "../../../../styles.css";
+
+.primary-title {
+  @apply bg-cyan-500 text-white;
+}
+.primary-message {
+  @apply border-cyan-400 bg-cyan-100 text-cyan-700;
+}
+
+.success-title {
+  @apply bg-teal-500 text-white;
+}
+.success-message {
+  @apply border-teal-400 bg-teal-100 text-teal-700;
+}
+
+.danger-title {
+  @apply bg-red-500 text-white;
+}
+.danger-message {
+  @apply border-red-400 bg-red-100 text-red-700;
+}
+
+.info-title {
+  @apply bg-blue-500 text-white;
+}
+.info-message {
+  @apply border-blue-400 bg-blue-100 text-blue-700;
+}
+
+.warning-title {
+  @apply bg-orange-500 text-white;
+}
+.warning-message {
+  @apply border-orange-400 bg-orange-100 text-orange-700;
+}

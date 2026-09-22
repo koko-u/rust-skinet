@@ -5,6 +5,7 @@ use crate::features::product_brands::repositories;
 use crate::shared::macros::merge;
 
 #[derive(Debug, Clone, Eq, PartialEq, serde::Deserialize, garde::Validate, utoipa::ToSchema)]
+#[serde(rename_all = "camelCase")]
 pub struct UpdateBrand {
     #[garde(required, length(max = 255))]
     #[schema(required, max_length = 255)]
