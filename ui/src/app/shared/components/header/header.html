@@ -1,0 +1,49 @@
+<header class="border-b border-slate-200 bg-stone-100 shadow-sm">
+  <div
+    class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-4 py-4 sm:px-6 lg:px-8"
+  >
+    <div class="flex items-center gap-6 sm:gap-10">
+      <a
+        aria-label="Skinet HOME"
+        class="flex shrink-0 items-center gap-2 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-indigo-600"
+        routerLink="/"
+      >
+        <img
+          alt=""
+          class="size-12 object-contain"
+          height="48"
+          ngSrc="/images/logo.png"
+          priority
+          width="48"
+        />
+        <span class="text-xl font-bold tracking-tight text-slate-900">Skinet</span>
+      </a>
+
+      <nav aria-label="Main Menu" class="flex items-center gap-1 sm:gap-3">
+        <sk-nav-link link="/">Home</sk-nav-link>
+        <sk-nav-link link="/shop">Shop</sk-nav-link>
+      </nav>
+    </div>
+
+    <nav aria-label="Account and Cart" class="ml-auto flex items-center gap-2 sm:gap-3">
+      <a
+        aria-label="Shopping Cart"
+        class="inline-flex size-11 shrink-0 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-indigo-50 hover:text-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        matBadge="5"
+        matBadgeSize="large" routerLink="/basket"
+      >
+        <mat-icon aria-hidden="true">shopping_cart</mat-icon>
+      </a>
+      <a
+        class="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        routerLink="/account/login"
+        >Login</a
+      >
+      <a
+        class="inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        routerLink="/account/register"
+        >Signup</a
+      >
+    </nav>
+  </div>
+</header>

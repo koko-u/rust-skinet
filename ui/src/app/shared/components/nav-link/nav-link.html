@@ -1,0 +1,14 @@
+<a
+  [routerLink]="link()"
+  class="
+    relative rounded-lg px-3 py-3 text-sm font-medium text-slate-600
+    transition-colors
+    after:absolute after:right-3 after:bottom-2 after:left-3
+    after:h-0.5 after:bg-indigo-600
+    after:opacity-0 after:transition-opacity after:duration-200
+    hover:bg-indigo-50 hover:text-indigo-700
+    hover:after:opacity-100
+  "
+>
+  <ng-content/>
+</a>
