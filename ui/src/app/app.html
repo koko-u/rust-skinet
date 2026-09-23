@@ -7,9 +7,9 @@
   } @else if (products.error()) {
     <sk-alert title="Error" message="Could not load products" [alertType]="'danger'"/>
   } @else if (products.isLoading()) {
-    <div>
+    <div class="mx-auto flex justify-center items-center">
       <mat-spinner></mat-spinner>
-      <span class="ms-2">Loading Products...</span>
+      <div class="ms-2 text-2xl">Loading Products...</div>
     </div>
   }
 </div>

@@ -1,41 +1,32 @@
-<table mat-table [dataSource]="products()">
-
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Name</th>
-    <td mat-cell *matCellDef="let product">{{ product.name }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="price">
-    <th mat-header-cell class="text-right!" *matHeaderCellDef>Price</th>
-    <td mat-cell class="text-right!"
-        *matCellDef="let product">{{ product.price | currency:"USD":"symbol-narrow":"1.2-2" }}
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="type">
-    <th mat-header-cell *matHeaderCellDef>Product Type</th>
-    <td mat-cell *matCellDef="let product">{{ product.productType }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="brand">
-    <th mat-header-cell *matHeaderCellDef>Product Brand</th>
-    <td mat-cell *matCellDef="let product">{{ product.productBrand }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="stock">
-    <th mat-header-cell *matHeaderCellDef>Quantity In Stock</th>
-    <td mat-cell class="text-center!" *matCellDef="let product">{{ product.quantityInStock }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell class="text-center!" *matHeaderCellDef>Actions</th>
-    <td mat-cell class="text-center!" *matCellDef="let product">
-      <button matButton="text">Edit</button>
-      <button matButton="text">View</button>
-    </td>
-  </ng-container>
-
-  @let columns = ['name', 'price', 'type', 'brand', 'stock', 'actions'];
-  <tr mat-header-row class="bg-violet-100!" *matHeaderRowDef="columns"></tr>
-  <tr mat-row class="even:bg-slate-100! hover:bg-slate-200!" *matRowDef="let row; columns: columns"></tr>
-</table>
+<div class="overflow-x-auto">
+  <table class="w-full border-collapse text-left text-sm text-slate-900">
+    <caption class="sr-only">Products</caption>
+    <thead class="bg-violet-100">
+      <tr>
+        <th scope="col" class="px-4 py-3 font-medium">Name</th>
+        <th scope="col" class="px-4 py-3 text-right font-medium">Price</th>
+        <th scope="col" class="px-4 py-3 font-medium">Product Type</th>
+        <th scope="col" class="px-4 py-3 font-medium">Product Brand</th>
+        <th scope="col" class="px-4 py-3 text-center font-medium">Quantity In Stock</th>
+        <th scope="col" class="px-4 py-3 text-center font-medium">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of products(); track product.id) {
+        <tr class="border-b border-slate-200 even:bg-slate-100 hover:bg-slate-200">
+          <td class="px-4 py-3">{{ product.name }}</td>
+          <td class="whitespace-nowrap px-4 py-3 text-right tabular-nums">
+            {{ product.price | currency: 'USD' : 'symbol-narrow' : '1.2-2' }}
+          </td>
+          <td class="px-4 py-3">{{ product.productType }}</td>
+          <td class="px-4 py-3">{{ product.productBrand }}</td>
+          <td class="px-4 py-3 text-center tabular-nums">{{ product.quantityInStock }}</td>
+          <td class="whitespace-nowrap px-4 py-3 text-center">
+            <button matButton="text">Edit</button>
+            <button matButton="text">View</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
