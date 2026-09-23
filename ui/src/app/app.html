@@ -3,7 +3,7 @@
   <h2 class="text-3xl font-bold text-green-700 mb-4">Welcome to {{ title() }}</h2>
 
   @if (products.hasValue()) {
-    <p>Product Values</p>
+    <sk-products-table [products]="products.value().items"/>
   } @else if (products.error()) {
     <sk-alert title="Error" message="Could not load products" [alertType]="'danger'"/>
   } @else if (products.isLoading()) {
