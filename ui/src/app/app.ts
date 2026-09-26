@@ -5,9 +5,10 @@ import { httpResource } from '@angular/common/http';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Alert } from './shared/components/alert/alert';
 import { Pagination } from './shared/models/pagination-model';
-import { Product } from './features/products/product-model';
+
 import { ProductsTable } from './features/products/products-table/products-table';
 import { API_BASE_URL } from './shared/tokens/api-base-url';
+import { Product } from './shared/models/product-model';
 
 @Component({
   imports: [RouterOutlet, Header, MatProgressSpinner, Alert, ProductsTable],

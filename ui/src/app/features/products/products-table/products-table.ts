@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
-import { Product } from '../product-model';
 import { MatButton } from '@angular/material/button';
 import { CurrencyPipe } from '@angular/common';
+import { Product } from '../../../shared/models/product-model';
 
 @Component({
   imports: [MatButton, CurrencyPipe],
